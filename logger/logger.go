@@ -4,11 +4,9 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/Yoak3n/gulu/util"
+	"github.com/sirupsen/logrus"
 	"os"
 	"path"
-	"strings"
-
-	"github.com/sirupsen/logrus"
 )
 
 var Logger *logrus.Logger
@@ -29,9 +27,9 @@ func (h *Hook) Fire(entry *logrus.Entry) error {
 	if entry.Level == logrus.ErrorLevel {
 		h.errorFile.Write([]byte(line))
 	}
-	if strings.HasSuffix(path.Dir(entry.Caller.File), "blivedanmu") {
-		h.driverFile.Write([]byte(line))
-	}
+	//if strings.HasSuffix(path.Dir(entry.Caller.File), "blivedanmu") {
+	//	h.driverFile.Write([]byte(line))
+	//}
 	_, err = h.file.Write([]byte(line))
 	return err
 }
@@ -46,10 +44,10 @@ func initHook(h *Hook) {
 	if err != nil {
 		panic(err)
 	}
-	h.driverFile, err = os.OpenFile("data/log/runtime.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-	if err != nil {
-		panic(err)
-	}
+	//h.driverFile, err = os.OpenFile("data/log/runtime.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	//if err != nil {
+	//	panic(err)
+	//}
 }
 
 func (Formatter) Format(entry *logrus.Entry) ([]byte, error) {

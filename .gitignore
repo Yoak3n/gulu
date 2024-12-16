@@ -1,1 +1,7 @@
 main.go
+.idea/
+
+data/
+
+test_source/
+test_output/
