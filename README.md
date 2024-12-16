@@ -1,2 +1,1 @@
-# obsidian-vault-everything
-my normal  obisdian vault
+因为不想去读代码就再写一个轮子，重复一遍又一遍
