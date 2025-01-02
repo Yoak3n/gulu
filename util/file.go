@@ -14,6 +14,19 @@ func CreateDirNotExists(dir string) {
 		}
 	}
 }
+func CreateFileNotExists(filePath string) error {
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		f, e := os.Create(filePath)
+		if e != nil {
+			return e
+		}
+		err = f.Close()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
 
 func GetFileDir(filePath string) string {
 	if strings.HasSuffix(filePath, "/") {
