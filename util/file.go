@@ -1,29 +1,41 @@
 package util
 
 import (
+	"errors"
 	"os"
+	"path"
 	"strings"
 )
 
-func CreateDirNotExists(dir string) {
+func CreateDirNotExists(dir string) error {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		e := os.MkdirAll(dir, os.ModePerm)
 		if e != nil {
-			println("Error creating directory: " + e.Error())
-			return
+			return errors.New("Error creating directory: " + e.Error())
 		}
 	}
+	return nil
 }
-func CreateFileNotExists(filePath string) error {
-	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+func CreateFileNotExists(filePath string, content ...[]byte) error {
+	dir := path.Dir(filePath)
+	err := CreateDirNotExists(dir)
+	if err != nil {
+		return err
+	}
+	if _, err = os.Stat(filePath); os.IsNotExist(err) {
 		f, e := os.Create(filePath)
 		if e != nil {
 			return e
 		}
-		err = f.Close()
-		if err != nil {
-			return err
+		if len(content) > 0 {
+			for _, c := range content {
+				_, err = f.Write(c)
+				if err != nil {
+					return err
+				}
+			}
 		}
+		defer f.Close()
 	}
 	return nil
 }
