@@ -3,19 +3,19 @@ package logger
 import (
 	"bytes"
 	"fmt"
-	"github.com/Yoak3n/gulu/util"
-	"github.com/sirupsen/logrus"
 	"os"
 	"path"
+
+	"github.com/Yoak3n/gulu/util"
+	"github.com/sirupsen/logrus"
 )
 
 var Logger *logrus.Logger
 
 type Formatter struct{}
 type Hook struct {
-	file       *os.File
-	errorFile  *os.File
-	driverFile *os.File
+	file      *os.File
+	errorFile *os.File
 }
 
 func (h *Hook) Levels() []logrus.Level { return logrus.AllLevels }
@@ -24,7 +24,7 @@ func (h *Hook) Fire(entry *logrus.Entry) error {
 	if err != nil {
 		return err
 	}
-	if entry.Level == logrus.ErrorLevel {
+	if entry.Level == logrus.ErrorLevel || entry.Level == logrus.FatalLevel || entry.Level == logrus.PanicLevel {
 		h.errorFile.Write([]byte(line))
 	}
 	//if strings.HasSuffix(path.Dir(entry.Caller.File), "blivedanmu") {
