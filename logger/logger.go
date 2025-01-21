@@ -24,8 +24,8 @@ func (h *Hook) Fire(entry *logrus.Entry) error {
 	if err != nil {
 		return err
 	}
-	if entry.Level == logrus.ErrorLevel {
-		h.errorFile.Write([]byte(line))
+	if entry.Level == logrus.ErrorLevel || entry.Level == logrus.FatalLevel || entry.Level == logrus.PanicLevel {
+		_, err = h.errorFile.Write([]byte(line))
 	}
 	//if strings.HasSuffix(path.Dir(entry.Caller.File), "blivedanmu") {
 	//	h.driverFile.Write([]byte(line))
