@@ -12,18 +12,13 @@ jobs:
     steps: # 切换到对应 tag 源码
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # 安装 Go 
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: 1.22
-        # 使用 goreleaser 编译 release
+
       - name: Create release on GitHub
-        uses: goreleaser/goreleaser-action@v6
-        with: # GoReleaser 版本
-          distribution: goreleaser
-          version: latest # 传递给 GoReleaser 的参数
-          args: release --clean
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: false
+          prerelease: false
         env: # 提供访问仓库token
           GITHUB_TOKEN: ${{secrets.TOKEN}}
