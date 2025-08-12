@@ -22,7 +22,8 @@ jobs:
       - name: Create release on GitHub
         uses: goreleaser/goreleaser-action@v6
         with: # GoReleaser 版本
+          distribution: goreleaser
           version: latest # 传递给 GoReleaser 的参数
           args: release --clean
-          env: # 提供访问仓库token
-            GITHUB_TOKEN: ${{secrets.TOKEN}}
+        env: # 提供访问仓库token
+          GITHUB_TOKEN: ${{secrets.TOKEN}}
